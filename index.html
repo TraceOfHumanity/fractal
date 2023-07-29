@@ -46,14 +46,20 @@
                     a = d;
                     H = d > 200;
                     if (H) {
-                        atom(x, y, "rgb(" + t * 3 + "," + t + "," + t * 0.5 + ")"); break;
+                        // atom(x, y, "rgb(" + t * 3 + "," + t + "," + t * 0.5 + ")"); break;
+                        const red = t * 3;
+                        const green = t;
+                        const blue = t * 0.5;
+                        const color = "rgb(" + red + "," + green + "," + blue + ")";
+                        atom(x, y, color);
+                        break;
                     }
                 }
             }
         }
 
         // Збільшуємо масштаб з кожним кадром для плавного наближення
-        scale += 5;
+        scale++;
 
         // Рекурсивно оновлюємо фрактал для наступного кадру
         requestAnimationFrame(drawFractal);
