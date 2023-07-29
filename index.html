@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fractal</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            background: black;
             box-sizing: border-box;
         }
 
@@ -20,20 +19,25 @@
 </head>
 
 <body>
-    <canvas id="gardun" width="1000" height="1000"></canvas>
+    <canvas id="gardun"></canvas>
 </body>
 
 <script>
-    m = document.getElementById("gardun").getContext("2d");
+    const canvas = document.getElementById("gardun");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const m = canvas.getContext("2d");
+
     atom = function (x, y, c) { m.fillStyle = c; m.fillRect(x, y, 3, 3) }
 
-    for (y = 1; y < 1000; y++) {
-        for (x = 1; x < 1000; x++) {
-            dx = (x - 500) / 100000 - 0.233
-            dy = (y - 500) / 100000 - 0.655
+    for (y = 1; y < canvas.height; y++) {
+        for (x = 1; x < canvas.width; x++) {
+            dx = (x - canvas.width / 2) / 100000 - 0.233
+            dy = (y - canvas.height / 2) / 100000 - 0.655
             a = dx
             b = dy
-            for (t = 1; t < 2000; t++) {
+            for (t = 1; t < 500; t++) {
                 d = (a * a) - (b * b) + dx
                 b = 2 * (a * b) + dy
                 a = d
