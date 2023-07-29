@@ -24,32 +24,43 @@
 
 <script>
     const canvas = document.getElementById("gardun");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
     const m = canvas.getContext("2d");
 
-    atom = function (x, y, c) { m.fillStyle = c; m.fillRect(x, y, 3, 3) }
+    let scale = 1.0; // Початковий масштаб
 
-    for (y = 1; y < canvas.height; y++) {
-        for (x = 1; x < canvas.width; x++) {
-            dx = (x - canvas.width / 2) / 100000 - 0.233
-            dy = (y - canvas.height / 2) / 100000 - 0.655
-            a = dx
-            b = dy
-            for (t = 1; t < 500; t++) {
-                d = (a * a) - (b * b) + dx
-                b = 2 * (a * b) + dy
-                a = d
-                H = d > 200
-                if (H) {
-                    atom(x, y, "rgb(" + t * 3 + "," + t + "," + t * 0.5 + ")"); break;
+    function drawFractal() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        atom = function (x, y, c) { m.fillStyle = c; m.fillRect(x, y, 3, 3) }
+
+        for (y = 1; y < canvas.height; y++) {
+            for (x = 1; x < canvas.width; x++) {
+                dx = (x - canvas.width / 2) / (100000 * scale) - 0.233;
+                dy = (y - canvas.height / 2) / (100000 * scale) - 0.655;
+                a = dx;
+                b = dy;
+                for (t = 1; t < 400; t++) {
+                    d = (a * a) - (b * b) + dx;
+                    b = 2 * (a * b) + dy;
+                    a = d;
+                    H = d > 500;
+                    if (H) {
+                        atom(x, y, "rgb(" + t * 3 + "," + t + "," + t * 0.5 + ")"); break;
+                    }
                 }
-
-                // atom(x, 1, "green");
             }
         }
+
+        // Збільшуємо масштаб з кожним кадром для плавного наближення
+        scale += 0.001;
+
+        // Рекурсивно оновлюємо фрактал для наступного кадру
+        requestAnimationFrame(drawFractal);
     }
+
+    // Викликаємо функцію для початку анімації
+    drawFractal();
 
 </script>
 
